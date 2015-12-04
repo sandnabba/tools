@@ -21,11 +21,27 @@ for line in $FILE_LIST; do
         JPEG_NAME=$(echo $line | grep -E -o "_DSC[0-9]+\.")jpg
 	if ! [[ "$FILE_LIST" =~ $JPEG_NAME ]]; then
 	    # If jpeg does not exists, add file to delete-list:§
-	    DELETE_LIST="$DELETE_LIST$line\n"
+	    DELETE_LIST=$DELETE_LIST$'\n'$line
 	fi
 	
     fi
 done
 
+# Check size of DELETE_LIST here, and quit if it's empty
+
 echo "List of files that will be deleted:"
-echo -e $DELETE_LIST
+for line in $DELETE_LIST; do
+    echo $line
+done
+echo -e "Continue? [yN]: \c"
+read REPLY
+
+if [ -z $REPLY ]; then
+    echo "Quitting"
+elif [ $REPLY == "y" ]; then
+    for line in $DELETE_LIST; do
+        rm -v $line
+    done
+else
+echo "Quitting"
+fi
