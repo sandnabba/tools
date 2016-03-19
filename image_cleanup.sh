@@ -8,6 +8,7 @@ else
 fi
 
 IFS=$'\n'
+shopt -s nocasematch
 
 FILE_LIST=$(find "$DIR_PATH")
 DELETE_LIST="" # Empty to start with

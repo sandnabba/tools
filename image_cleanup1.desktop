@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=inode/directory;
+Actions=clean_raw;
+#X-KDE-AuthorizeAction=shell_access
+
+[Desktop Action clean_raw]
+Exec=konsole --hide-menubar --hide-menubar -e /home/emil/git/tools/image_cleanup.sh %f
+Icon=utilities-terminal
+
+Name=Clean RAW files

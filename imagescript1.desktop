@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=inode/directory;
+Actions=mkRawDir;
+#X-KDE-AuthorizeAction=shell_access
+
+[Desktop Action mkRawDir]
+Exec=/home/emil/git/tools/raw_dir.sh "%f"
+Icon=utilities-terminal
+
+Name=Fix RAW Directory
