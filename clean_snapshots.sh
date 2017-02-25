@@ -9,20 +9,35 @@ NAME_PREFIX=test
 SNAPSHOT_DIR=/home/emil/temp/snapshots
 DELETE_COMMAND="rmdir"
 
+TODAY="2017-02-02"
+DAY=2
+CURRENT_MONTH=2
+YEAR=2017
 
-TODAY=$(date +20%y-%m-%d)
-DAY=$(date +%d)
-CURRENT_MONTH=$(date +%m)
-YEAR=$(date +20%y)
+# TODAY=$(date +20%y-%m-%d)
+# DAY=$(date +%d)
+# CURRENT_MONTH=$(date +%m)
+#YEAR=$(date +20%y)
 
-if [ $CURRENT_MONTH -eq 11 ]; then
-  LAST_MONTH="10"
-elif [ $CURRENT_MONTH -eq 12 ]; then
-  LAST_MONTH="11"
-elif [ $CURRENT_MONTH -eq 1 ]; then
-  LAST_MONTH="12"
+if [ $CURRENT_MONTH -eq 1 ]; then
+  LAST_MONTH=12
+  TWO_MONTHS_AGO=11
+  YEAR=$(expr $YEAR - 1)
+elif [ $CURRENT_MONTH -eq 2 ]; then
+  LAST_MONTH=1
+  TWO_MONTHS_AGO=12
 else
-  LAST_MONTH="0"$(expr $CURRENT_MONTH - 1)
+  LAST_MONTH=$(expr $CURRENT_MONTH - 1)
+  TWO_MONTHS_AGO=$(expr $CURRENT_MONTH - 2)
+fi
+if [ "$DAY" -le "9" ]; then
+  DAY="0$DAY"
+fi
+if [ "$LAST_MONTH" -le "9" ]; then
+  LAST_MONTH="0$LAST_MONTH"
+fi
+if [ "$TWO_MONTHS_AGO" -le "9" ]; then
+  TWO_MONTHS_AGO="0$TWO_MONTHS_AGO"
 fi
 
 echo "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$TODAY"
@@ -34,5 +49,23 @@ then
   exit 2
 fi
 
-# Delete yesterdays snapshot:
-$($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$LAST_MONTH"-"$DAY")
+# If first day of month, delete all remaning snapshots for month-2:
+if [ $DAY -eq 1 ]; then
+  for DAY in {2..31}; do
+    if [ "$DAY" -le "9" ]; then
+      DAY="0$DAY"
+    fi
+    if [ $CURRENT_MONTH -eq 2 ]; then
+      YEAR=$(expr $YEAR - 1)
+    fi
+    echo checking "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$TWO_MONTHS_AGO"-"$DAY"
+    if [ -d "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$TWO_MONTHS_AGO"-"$DAY" ]; then
+      echo Removing "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$TWO_MONTHS_AGO"-"$DAY"
+      $($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$TWO_MONTHS_AGO"-"$DAY")
+    fi
+  done
+else
+  # Just delete last month's snapshot
+  echo "Removing "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$LAST_MONTH"-"$DAY""
+  $($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX"_"$YEAR"-"$LAST_MONTH"-"$DAY")
+fi
