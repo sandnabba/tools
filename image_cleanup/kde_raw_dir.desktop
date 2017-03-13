@@ -6,7 +6,7 @@ Actions=mkRawDir;
 #X-KDE-AuthorizeAction=shell_access
 
 [Desktop Action mkRawDir]
-Exec=/home/emil/git/tools/raw_dir.sh "%f"
+Exec=/usr/local/bin/raw_dir.sh "%f"
 Icon=utilities-terminal
 
 Name=Fix RAW Directory

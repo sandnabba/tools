@@ -6,7 +6,7 @@ Actions=clean_raw;
 #X-KDE-AuthorizeAction=shell_access
 
 [Desktop Action clean_raw]
-Exec=konsole --hide-menubar --hide-menubar -e /home/emil/git/tools/image_cleanup.sh %f
+Exec=konsole --hide-menubar --hide-menubar -e /usr/local/bin/image_cleanup.sh %f
 Icon=utilities-terminal
 
 Name=Clean RAW files
