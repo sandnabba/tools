@@ -38,9 +38,9 @@ else
   LAST_MONTH=$(expr $CURRENT_MONTH - 1)
   TWO_MONTHS_AGO=$(expr $CURRENT_MONTH - 2)
 fi
-if [ "$DAY" -le "9" ]; then
-  DAY="0$DAY"
-fi
+#if [ "$DAY" -le "9" ]; then
+#  DAY="0$DAY"
+#fi
 if [ "$LAST_MONTH" -le "9" ]; then
   LAST_MONTH="0$LAST_MONTH"
 fi
@@ -65,7 +65,6 @@ if [ $DAY -eq 1 ]; then
     if [ $CURRENT_MONTH -eq 2 ]; then
       YEAR=$(expr $YEAR - 1)
     fi
-    #echo checking "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$TWO_MONTHS_AGO"-"$DAY"
     if [ -d "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$TWO_MONTHS_AGO"-"$DAY" ]; then
       #echo Removing "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$TWO_MONTHS_AGO"-"$DAY"
       $($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$TWO_MONTHS_AGO"-"$DAY")
@@ -73,6 +72,9 @@ if [ $DAY -eq 1 ]; then
   done
 else
   # Just delete last month's snapshot
-  #echo "Removing "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY""
-  $($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY")
+  #echo Checking if "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY" exists
+  if [ -d "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY" ]; then
+    #echo "Running: "$DELETE_COMMAND" "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY""
+    $($DELETE_COMMAND "$SNAPSHOT_DIR"/"$NAME_PREFIX""$YEAR"-"$LAST_MONTH"-"$DAY")
+  fi
 fi
