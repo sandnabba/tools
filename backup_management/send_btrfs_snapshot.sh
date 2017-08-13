@@ -17,7 +17,7 @@ function send_snapshot {
   if [ -e ""$SNAPSHOT_DIR"/"$1".last_sent" ]; then
     LAST_SNAPSHOT=$(cat "$SNAPSHOT_DIR"/"$1".last_sent)
     #echo Running: btrfs send -c "$SNAPSHOT_DIR"/"$LAST_SNAPSHOT" "$SNAPSHOT_DIR"/"$SNAPSHOT_NAME" "|" ssh emil@10.0.0.1 "sudo btrfs receive /btrfs/"
-    btrfs send -c "$SNAPSHOT_DIR"/"$LAST_SNAPSHOT" "$SNAPSHOT_DIR"/"$SNAPSHOT_NAME" | ssh "$REMOTE_USER"@"$REMOTE_HOST" "sudo btrfs receive /btrfs/"
+    btrfs send -q -c "$SNAPSHOT_DIR"/"$LAST_SNAPSHOT" "$SNAPSHOT_DIR"/"$SNAPSHOT_NAME" | ssh "$REMOTE_USER"@"$REMOTE_HOST" "sudo btrfs receive /btrfs/"
     if [ $? -eq 0 ]; then
       echo $SNAPSHOT_NAME > "$SNAPSHOT_DIR"/"$NAME_PREFIX".last_sent
       ./clean_snapshots.sh $NAME_PREFIX
