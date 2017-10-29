@@ -22,10 +22,10 @@ DELETE_COMMAND="btrfs subvolume delete"
 #CURRENT_MONTH=3
 #YEAR=2017
 
-TODAY=$(date +20%y-%m-%d)
+TODAY=$(date +%Y-%m-%d)
 DAY=$(date +%d)
 CURRENT_MONTH=$(date +%m)
-YEAR=$(date +20%y)
+YEAR=$(date +%Y)
 
 if [ $CURRENT_MONTH -eq 1 ]; then
   LAST_MONTH=12

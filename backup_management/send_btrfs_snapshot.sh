@@ -7,7 +7,7 @@ REMOTE_USER="username"
 REMOTE_HOST="remote.example.com"
 
 # Todays date:
-TIMESTAMP=$(date +20%y-%m-%d)
+TIMESTAMP=$(date +%Y-%m-%d)
 
 function send_snapshot {
   NAME_PREFIX="$1"
