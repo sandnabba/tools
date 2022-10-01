@@ -15,10 +15,10 @@ DELETE_LIST="" # Empty to start with
 
 # Start with finding all RAW-files:
 for line in $FILE_LIST; do
-  if [[ $line =~ .*\.NEF$ ]]; then
+  if [[ $line =~ .*\.RAF$ ]]; then
   	# What to do with full path to RAW-file:
   	# Get the Jpeg name:
-    JPEG_NAME=$(echo $line | grep -E -o "_?DSC_?[0-9]+\.")jpg
+    JPEG_NAME=$(echo $line | grep -E -o "_?DSCF?_?[0-9]+\.")jpg
   	if ! [[ "$FILE_LIST" =~ $JPEG_NAME ]]; then
       # If jpeg does not exists, add file to delete-list:§
   	  DELETE_LIST=$DELETE_LIST$'\n'$line
